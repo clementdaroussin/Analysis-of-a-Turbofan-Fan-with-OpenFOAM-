@@ -1,0 +1,72 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2412                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    default         Euler;
+}
+
+gradSchemes
+{
+    // Use of limiters to prevent pressure spikes on the cone geometry
+    default         Gauss linear limited 0.5;
+    //default         Gauss linear;
+}
+
+divSchemes
+{
+    default         none;
+
+    // div(phi,U)      Gauss linearUpwind grad(U);
+    // div(U)          Gauss linear;
+
+    // div(phi,k)      Gauss linearUpwind grad(U);
+    // div(phi,omega)  Gauss linearUpwind grad(U);
+
+    // Switched to upwind to prevent immediate crashes (maximum stability)
+    div(phi,U)      Gauss upwind;
+    div(U)          Gauss linear;
+
+    div(phi,k)      Gauss upwind;
+    div(phi,omega)  Gauss upwind;
+
+    div((nuEff*dev2(T(grad(U))))) Gauss linear;
+}
+
+laplacianSchemes
+{
+    //default         Gauss linear corrected;
+    // 'limited 0.5' is mandatory to handle your 65° non-orthogonality
+    default         Gauss linear limited 0.5;
+}
+
+interpolationSchemes
+{
+    default         linear;
+    "AMI.*" targetWeight; // Helps stabilize imperfect interface weights
+}
+
+snGradSchemes
+{
+    //default         corrected;
+    // Essential for the stability of imperfect AMI interfaces
+    default         limited 0.5;
+}
+
+wallDist
+{
+    method          meshWave;
+}
