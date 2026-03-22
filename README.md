@@ -50,7 +50,27 @@ The simulation was performed using **OpenFOAM 2406** on a dynamic mesh (AMI) to 
 
 ## 🚀 How to Run
 1. **Mesh Generation:**
-   ```bash
-   surfaceFeatureExtract
-   blockMesh
-   snappyHexMesh -overwrite
+   `surfaceFeatureExtract`
+   `blockMesh`
+   `snappyHexMesh -overwrite`
+   
+2. **Solver execution**
+pimpleFoam
+---
+
+### 📊 Post-Processing
+* **Visualization:** Use `paraFoam` for 3D field analysis (U, p, k, ω).
+* **Data Analysis:** Use the provided Python scripts for data extraction and analysis.
+
+---
+
+### 📝 Conclusion & Perspectives
+This project served as a deep dive into **dynamic mesh handling** and **transient CFD** for aerospace applications. It demonstrates the ability to set up a complex rotating case from CAD to post-processing, even with limited hardware resources.
+
+**Future Work:**
+* 🔊 **Aeroacoustics:** Implementation of the **Ffowcs Williams-Hawkings (FW-H)** analogy for far-field acoustic prediction.
+* ✈️ **Geometry:** Integration of a full nacelle/duct geometry to capture confinement effects.
+* 💻 **HPC:** Scaling the simulation to an HPC cluster for high-fidelity **LES (Large Eddy Simulation)**.
+
+---
+#CFD #OpenFOAM #Aerospace #Simulation #HPC
