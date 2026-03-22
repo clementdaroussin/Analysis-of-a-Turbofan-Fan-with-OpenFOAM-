@@ -1,0 +1,93 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2412                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+
+// Bounding box : (-0.571838 -3.07709 -0.581505) → (0.599971 0.747557 0.590304)
+
+scale 1.0;
+
+vertices
+(
+    // --- BLOCK 1 : Inlet (Y = -1.8) ---
+    (-0.571838 -1.8 -0.581505) // 0 : Bottom-Left-Back
+    ( 0.599971 -1.8 -0.581505) // 1 : Bottom-Right-Back
+    ( 0.599971  0.4 -0.581505) // 2 : Middle-Right-Back (Fan Level)
+    (-0.571838  0.4 -0.581505) // 3 : Middle-Left-Back (Fan Level)
+    
+    (-0.571838 -1.8  0.590304) // 4 : Bottom-Left-Front
+    ( 0.599971 -1.8  0.590304) // 5 : Bottom-Right-Front
+    ( 0.599971  0.4  0.590304) // 6 : Middle-Right-Front (Fan Level)
+    (-0.571838  0.4  0.590304) // 7 : Middle-Left-Front (Fan Level)
+
+    // --- BLOCK 2 : Outlet (Y = 0.8) ---
+    ( 0.599971  0.8 -0.581505) // 8 : Top-Right-Back
+    (-0.571838  0.8 -0.581505) // 9 : Top-Left-Back
+    ( 0.599971  0.8  0.590304) // 10: Top-Right-Front
+    (-0.571838  0.8  0.590304) // 11: Top-Left-Front
+);
+
+blocks
+(
+    // Block 1 : From Y = -1.8 to Y = 0.1 (Long section before the fan)
+    // 40 divisions set as requested
+    // simpleGrading (1 -7 1) : cells tighten towards Y = 0.1
+    hex (0 1 2 3 4 5 6 7) (20 20 20) simpleGrading (1 -7 1)
+
+    // Block 2 : From Y = 0.1 to Y = 0.8 (Short section after the fan)
+    // 30 divisions set here
+    // simpleGrading (1 1 1) : uniform cells
+    hex (3 2 8 9 7 6 10 11) (20 10 20) simpleGrading (1 1 1)
+    
+);
+
+edges ();
+
+boundary
+(
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (0 4 5 1) // Y-min face of Block 1
+        );
+    }
+    inlet
+    {
+        type patch;
+        faces
+        (
+            (9 8 10 11) // Y-max face of Block 2
+        );
+    }
+    walls
+    {
+        type wall;
+        faces
+        (
+            // Outer sides Block 1
+            (0 1 2 3)
+            (4 5 6 7)
+            (0 3 7 4)
+            (1 5 6 2)
+            // Outer sides Block 2
+            (3 2 8 9)
+            (7 6 10 11)
+            (3 9 11 7)
+            (2 8 10 6)
+        );
+    }
+);
+
+mergePatchPairs ();
