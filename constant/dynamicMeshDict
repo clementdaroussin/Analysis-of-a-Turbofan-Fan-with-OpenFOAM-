@@ -1,0 +1,44 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2112                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh   dynamicMotionSolverFvMesh;
+
+motionSolverLibs (fvMotionSolvers);
+
+motionSolver    solidBody;
+
+cellZone        rotatingZone;
+
+solidBodyMotionFunction  rotatingMotion;
+
+origin     (0.014067 0.461990 0.004400);//(0 0 0);
+axis        (0 -1 0);
+omega
+{
+    type table;
+    values
+    (
+        (0.00   0)      // Démarrage
+        (0.05   2)      // Mise en mouvement très douce
+        (0.10   10)     // Accélération franche
+        (0.30   35)     // Montée en puissance
+        (0.50   50)     // Vitesse de croisière atteinte
+        (5.00   50)     // Maintien jusqu'à la fin (endTime)
+    );
+}
+
+
+// ************************************************************************* //
