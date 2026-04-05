@@ -3,10 +3,9 @@
 **Clément DAROUSSIN - February 2025** *Self-Initiated Project | Computational Fluid Dynamics | Aeroacoustics*
 
 ## 📌 Overview
-This project focuses on the **transient aeroacoustic and aerodynamic behavior** of a high-bypass turbofan (inspired by GE90/Trent 1000) during its startup phase. 
-The simulation was performed using **OpenFOAM 2406** on a dynamic mesh (AMI) to capture the complex rotor-stator interactions.
+The simulation was performed using **OpenFOAM 2406** on a dynamic mesh (AMI) to capture the complex rotor-stator interactions focuses on the **transient aerodynamic behavior** of a high-bypass turbofan (inspired by GE90/Trent 1000) during its startup phase. 
 
-> **Key Challenge:** Successfully running a complex transient rotating case with limited hardware (Google Colab / 2 CPUs), requiring extreme optimization of the meshing strategy and solver stability.
+> **Key Challenge:** Successfully running a complex transient rotating case with Google Colab / 2 CPUs because of my limited hardware, requiring sowftware installation and optimization optimization.
 
 ---
 
@@ -66,11 +65,6 @@ pimpleFoam
 
 ### 📝 Conclusion & Perspectives
 This project served as a deep dive into **dynamic mesh handling** and **transient CFD** for aerospace applications. It demonstrates the ability to set up a complex rotating case from CAD to post-processing, even with limited hardware resources.
-
-**Future Work:**
-* 🔊 **Aeroacoustics:** Implementation of the **Ffowcs Williams-Hawkings (FW-H)** analogy for far-field acoustic prediction.
-* ✈️ **Geometry:** Integration of a full nacelle/duct geometry to capture confinement effects.
-* 💻 **HPC:** Scaling the simulation to an HPC cluster for high-fidelity **LES (Large Eddy Simulation)**.
 
 ---
 #CFD #OpenFOAM #Aerospace #Simulation #HPC
